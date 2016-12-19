@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 泛型学习
  * 
- * <p>泛型方法</P>
+ * <p>泛型方法1</P>
  * @author nb
  *
  */
