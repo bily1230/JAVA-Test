@@ -12,6 +12,8 @@ public class Memory {
 	 * 传地址 ,编程中多注意
 	 * @param args
 	 */
+	
+	
     
 	public static void main(String[] args) {
 	
