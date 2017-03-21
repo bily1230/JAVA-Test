@@ -18,6 +18,7 @@ public class Genericity02 {
 		}
 		return list;
 		
+		
 	}
 
 	public static void main(String[] args) {

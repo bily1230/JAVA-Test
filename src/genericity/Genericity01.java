@@ -10,6 +10,9 @@ package genericity;
  */
 public class Genericity01<T> {
 	
+	
+	
+	
 	private static class Node<U>{
 		
 		U item;
