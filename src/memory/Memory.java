@@ -14,7 +14,8 @@ public class Memory {
 	 */
     
 	public static void main(String[] args) {
-	
+
+
 		Map<String , List<String>> map = new HashMap<String, List<String>>();
 	    
 		List<String> list = new ArrayList<String>();
