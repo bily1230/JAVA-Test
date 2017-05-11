@@ -28,13 +28,13 @@ class CleanPerson implements  Runnable{
         try{
             while(!Thread.interrupted()) {
                 synchronized (this) {
-                    while (restaurant.meal == null) {
+                    while (restaurant.isClean) {
                         wait();
                     }
                 }
                 System.out.println("CleanPerson to" + restaurant.meal);
                 synchronized (restaurant.chef) {
-                    restaurant.meal = null;
+                    restaurant.isClean = true;
                     restaurant.chef.notifyAll();
                 }
             }
@@ -54,11 +54,13 @@ class WaitPerson implements Runnable{
         try{
             while(!Thread.interrupted()){
                 synchronized (this){
-                    while (restaurant.meal ==null)
+                    while (restaurant.meal ==null||!restaurant.isClean)
                         wait();
                 }
                 System.out.println("WaitPerson got"+restaurant.meal);
                 synchronized (restaurant.cleanPerson){
+                    restaurant.meal = null;
+                    restaurant.isClean = false;
                     restaurant.cleanPerson.notifyAll();
 
                 }
@@ -80,7 +82,7 @@ class Chef implements Runnable{
         try{
             while(!Thread.interrupted()){
                 synchronized (this){
-                    while(restaurant.meal!=null)
+                    while(!restaurant.isClean||restaurant.meal!=null)
                         wait();
                 }
                 if(++count == 10){
@@ -101,10 +103,12 @@ class Chef implements Runnable{
 }
 class Restaurant{
     ProductMeal meal;
+    boolean isClean = true;
     ExecutorService executorService = Executors.newCachedThreadPool();
-    CleanPerson cleanPerson = new CleanPerson(this);
-    WaitPerson waitPerson = new WaitPerson(this);
     Chef chef = new Chef(this);
+    WaitPerson waitPerson = new WaitPerson(this);
+    CleanPerson cleanPerson = new CleanPerson(this);
+
     public Restaurant(){
         executorService.execute(chef);
         executorService.execute(waitPerson);
